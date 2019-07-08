@@ -1,0 +1,5 @@
+name: jaeger-all-in-one-helm
+description: Jaeger all-in-one helm chart
+version: 0.0.1
+sources:
+  - https://github.com/sungjunyoung/jaeger-all-in-one-helm
