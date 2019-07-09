@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jaeger
+spec:
+  selector:
+    app: jaeger-all-in-one
+  ports:
+    - name: frontend
+      protocol: TCP
+      port: 16686
+      targetPort: 16686
+  type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: jaeger-collector
+spec:
+  selector:
+    app: jaeger-all-in-one
+  ports:
+    - name: jaeger-collector
+      port: 14268
+      protocol: TCP
+      targetPort: 14268
+    - name: jaeger-collector-zipkin-compatible
+      port: 9411
+      protocol: TCP
+      targetPort: 9411
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: jaeger-agent
+spec:
+  selector:
+    app: jaeger-all-in-one
+  ports:
+    - name: agent-zipkin-thrift
+      port: 5775
+      protocol: UDP
+      targetPort: 5775
+    - name: agent-compact
+      port: 6831
+      protocol: UDP
+      targetPort: 6831
+    - name: agent-binary
+      port: 6832
+      protocol: UDP
+      targetPort: 6832
+  type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: zipkin
+spec:
+  selector:
+    app: jaeger-all-in-one
+  ports:
+    - name: jaeger-collector-zipkin
+      port: 9411
+      protocol: TCP
+      targetPort: 9411
